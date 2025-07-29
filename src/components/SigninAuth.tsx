@@ -7,8 +7,9 @@ import { useState } from "react"
 import Link from "next/link"
 import { signup } from "@/app/actions/userAction"
 import { useRouter } from "next/navigation";
+import { signIn } from 'next-auth/react'
 
-export const SignupAuth = () => {
+export const SigninAuth = () => {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -27,32 +28,36 @@ export const SignupAuth = () => {
             return;
         }
 
-        if(!email || !username || !password){
-                setError("All fields are required");
-                setLoading(false);
-                return;
-            }
-
-
-        try{
-            const res = await signup(email,username,password);
-            if (!res.success) {
-                setError(typeof res.message === "string" ? res.message : "Signup failed");
-            } else {
-                router.push("/signin");
-            }
-        }catch(e){
-            setError("Something went wrong. Please try again.");
-        } finally {
+        if (!email || !password) {
+            setError("All fields are required.");
             setLoading(false);
+            return;
         }
+
+        try {
+            const result = await signIn('credentials', {
+              email,
+              password,
+              redirect: false
+            })
+
+            if (result?.error) {
+              setError("Invalid credentials. Please try again.") // Set the error message here
+            } else {
+              router.push("/landing")
+            }
+          } catch (error) {
+            setError("An unexpected error occurred. Please try again.") // Handle unexpected errors
+          } finally {
+            setLoading(false)
+          }
     };
 
     return (
         <div className="w-full space-y-6 max-w-sm mx-auto">
             <div className="mb-10 text-center lg:text-left">
-                <h1 className="text-5xl font-bold text-white pb-2">SIGN UP</h1>
-                <p className="text-gray-400 text-sm">Create your new account</p>
+                <h1 className="text-5xl font-bold text-white pb-2">SIGN IN</h1>
+                <p className="text-gray-400 text-sm">Enter your credentials</p>
             </div>
             <form className="space-y-6" onSubmit={handleSubmit}>
                 {error && (
@@ -72,18 +77,7 @@ export const SignupAuth = () => {
                 className="h-10 bg-[#160430] lg:bg-[#261046] text-[#A4A4A4] border-none py-4 text-lg"
                 />
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="username" className="text text-white font-medium">Username</Label>
-                <Input
-                id="username"
-                type="text" 
-                placeholder="Yourname123"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="h-10 bg-[#160430] lg:bg-[#261046] text-[#A4A4A4] border-none py-4 text-lg"
-                />
-            </div>
+            
             <div className="space-y-2">
                 <Label htmlFor="password" className="text text-white font-medium">Password</Label>
                 <Input 
@@ -100,10 +94,10 @@ export const SignupAuth = () => {
             type="submit"
             disabled={loading}
             className="w-full bg-gradient-to-r from-[#501794] to-[#3E70A1] hover:bg-gradient-to-r hover:from-[#3E70A1] hover:to-[#501794] h-12 font-medium text-md">
-                {loading ? "Creating account..." : "Create Account"}
+                {loading ? "Signing In..." : "Sign In"}
             </Button>
             <div className="h-1 bg-gray-400 w-full"></div>
-            <span className="text-gray-400 text-sm">Already have an account? <Link href="/signin" className="text-purple-600 hover:text-purple-400 hover:cursor-pointer">Signin</Link></span>
+            <span className="text-gray-400 text-sm">Don't have an account? <Link href="/signup" className="text-purple-600 hover:text-purple-400 hover:cursor-pointer">Signup</Link></span>
             </form>
         </div>
     )

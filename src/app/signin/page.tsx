@@ -1,10 +1,11 @@
-import { SignupAuth } from "@/components/SignupAuth";
+import { SigninAuth } from "@/components/SigninAuth";
 import Image from "next/image";
 import Backgroundd from '@/images/Backgroundd.png';
 import bgMobile from '@/images/bg-mobile.png';
 import { NotebookPen } from 'lucide-react';
+import { signIn } from 'next-auth/react'
 
-export default function Signup() {
+export default function Signin() {
     return (
         <div className="flex flex-col lg:flex-row min-h-screen  bg-[#261046] lg:bg-[#160430] relative overflow-hidden">
             
@@ -32,14 +33,14 @@ export default function Signup() {
                 </header>
                 <div className="hidden lg:block absolute bottom-12 left-12">
                     <span className="text-4xl font-bold text-white">GET READY FOR SHARING</span><br />
-                    <span className="text-3xl font-bold text-purple-400">SIGNUP TO GET STARTED</span>
+                    <span className="text-3xl font-bold text-purple-400">SIGNIN TO GET STARTED</span>
                 </div>
             </div>
 
            
             <div className="lg:flex-[0.45] flex justify-center items-center px-8 py-12">
                 <div className="relative z-10 -mt-100 lg:mt-0 w-full max-w-md lg:static">
-                    <SignupAuth />
+                    <SigninAuth />
                 </div>
             </div>
         </div>

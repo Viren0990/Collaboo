@@ -16,16 +16,16 @@ const signupSchema = z.object({
 export async function signup(email: string, username: string, password: string){
     const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS ?? "10");
     const validated = signupSchema.safeParse({ email, username, password });
+   
     if (!validated.success) {
         return { success: false, message: validated.error.issues[0].message };
     }
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     try{
         const user = await prisma.user.create({
-            data:{
-                email,
-                username,
-                password: await bcrypt.hash(password, saltRounds),
-            },
+            data: { email, username, password: hashedPassword },
+            select: { id: true, email: true, username: true, createdAt: true },
         });
 
         return { success: true, user };
