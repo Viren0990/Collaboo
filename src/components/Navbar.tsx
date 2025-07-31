@@ -21,7 +21,7 @@ export const Navbar = () => {
     ]
 
     return(
-        <nav className="flex justify-between items-center h-16 w-full top-0 sticky z-50 border-b border-gray-400 backdrop-blur-sm px-4">
+        <nav role="navigation" className="flex justify-between items-center h-16 w-full top-0 sticky z-50 border-b border-gray-400 backdrop-blur-sm px-4">
             <div className="flex space-x-2 justify-center items-center">
                 <NotebookPen className="h-10 text-white" />
                 <h1 className="text-2xl font-bold text-white">Collaboo</h1>
