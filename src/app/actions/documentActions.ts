@@ -10,13 +10,12 @@ export async function auth() {
   return await getServerSession(NEXT_AUTH_CONFIG);
 }
 
-export const createDocument = async (formData: FormData) => {
+export const createDocument = async (title:string) => {
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/signin");
   }
-
-  const title = formData.get("title") as string;
+  
   const userId = session.user.id;
 
   if (!title) {
