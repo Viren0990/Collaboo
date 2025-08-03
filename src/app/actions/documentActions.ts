@@ -15,7 +15,7 @@ export const createDocument = async (title:string) => {
   if (!session?.user?.id) {
     redirect("/signin");
   }
-  
+
   const userId = session.user.id;
 
   if (!title) {
@@ -85,6 +85,7 @@ export async function getDocuments(){
             id: doc.document.id,
             title: doc.document.title,
             createdAt: doc.document.createdAt,
+            updatedAt: doc.document.updatedAt,
             role: doc.role,
         })),
         };
