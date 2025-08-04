@@ -16,7 +16,7 @@ export const Navbar = () => {
     const navLinks = [
         { href: "/landing", label: "Home" },
         { href: "/createNotes", label: "Create-Documents" },
-        { href: "/myNotes", label: "My-Documents" },
+        { href: "/myDocuments", label: "My-Documents" },
         { href: "/documents", label: "Explore" },
     ]
 

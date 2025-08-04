@@ -1,40 +1,51 @@
-"use client"
+"use client";
 
-import { Filter, Search, Share2, Star, X } from "lucide-react"
-import { Button } from "./ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { Filter, Search, Share2, Star, X } from "lucide-react";
+import { Button } from "./ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useState } from "react";
 import { createDocument } from "@/app/actions/documentActions";
 
-export const Header = () => {
-    const [newDocument, setNewDocument] = useState(false);
-    const [title, setTitle] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+interface HeaderProps {
+  onSearch: (query: string) => void;
+}
 
-    const create = async () => {
-        setLoading(true);
-         if(!title){
-                setError("Please enter a title");
-                return;
-             }
-        try{
-            const res = await createDocument(title);
-            if(res?.success){
-                alert("Document created!");
-                setError("");
-                setLoading(false);
-                setNewDocument(false);
-                setTitle("");
-            }
-        }catch(e){
-                alert("Failed to create document");
-                setError("");
-                setTitle("");
-                setLoading(false);
-                setNewDocument(false);
-        }
+export const Header = ({ onSearch }: HeaderProps) => {
+  const [newDocument, setNewDocument] = useState(false);
+  const [title, setTitle] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+
+  const create = async () => {
+    setLoading(true);
+    if (!title) {
+      setError("Please enter a title");
+      return;
     }
+    try {
+      const res = await createDocument(title);
+      if (res?.success) {
+        alert("Document created!");
+        setError("");
+        setLoading(false);
+        setNewDocument(false);
+        setTitle("");
+      }
+    } catch (e) {
+      alert("Failed to create document");
+      setError("");
+      setTitle("");
+      setLoading(false);
+      setNewDocument(false);
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchInput(query);
+    onSearch(query);
+  };
     return(
         <div className="py-4 px-6">
             <div className="text-center md:flex md:text-left justify-between items-center py-4">
@@ -75,10 +86,12 @@ export const Header = () => {
                 <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center items-center">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400 w-4 h-4" />
-                        <input 
-                            placeholder="Search across the cosmos..."
-                            className="w-full pl-10 bg-black/30 border-purple-400/30 text-white placeholder:text-purple-300 focus:border-purple-400 p-2 border-1 rounded-sm"
-                        ></input>
+                       <input 
+              value={searchInput}
+              onChange={handleSearchChange}
+              placeholder="Search across the cosmos..."
+              className="w-full pl-10 bg-black/30 border-purple-400/30 text-white placeholder:text-purple-300 focus:border-purple-400 p-2 border-1 rounded-sm"
+            />
                     </div>
                     <div>
                         <DropdownMenu>

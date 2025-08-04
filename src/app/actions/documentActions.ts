@@ -91,7 +91,7 @@ export async function getDocuments(){
         };
     }catch(e){
         console.error(e);
-        return { success: false, message: "Failed to fetch documents" };
+        return { success: false, data : [] };
     }
 }
 
