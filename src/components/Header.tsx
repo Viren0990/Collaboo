@@ -3,8 +3,10 @@
 import { Filter, Search, Share2, Star, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createDocument } from "@/app/actions/documentActions";
+import debounce from "lodash.debounce";
+import toast from "react-hot-toast";
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -17,23 +19,31 @@ export const Header = ({ onSearch }: HeaderProps) => {
   const [loading, setLoading] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
+  const debouncedSearch = useCallback(
+    debounce((query: string) => {
+      onSearch(query);
+    }, 300), // 300ms delay
+    [onSearch] // Recreate if onSearch changes
+  );
+
   const create = async () => {
     setLoading(true);
     if (!title) {
       setError("Please enter a title");
+      setLoading(false);
       return;
     }
     try {
       const res = await createDocument(title);
       if (res?.success) {
-        alert("Document created!");
+        toast.success("Document created!");
         setError("");
         setLoading(false);
         setNewDocument(false);
         setTitle("");
       }
     } catch (e) {
-      alert("Failed to create document");
+      toast.error("Failed to create document");
       setError("");
       setTitle("");
       setLoading(false);
@@ -44,8 +54,14 @@ export const Header = ({ onSearch }: HeaderProps) => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchInput(query);
-    onSearch(query);
+    debouncedSearch(query); // This will now be debounced
   };
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
     return(
         <div className="py-4 px-6">
             <div className="text-center md:flex md:text-left justify-between items-center py-4">
@@ -97,7 +113,7 @@ export const Header = ({ onSearch }: HeaderProps) => {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
-                                className="px-3 border-2 border-purple-400/30 text-purple-200 hover:bg-purple-400/10 bg-transparent"      
+                                className="px-3 border-2 border-purple-400/30 text-purple-200 hover:bg-purple-400/10 bg-transparent"
                                 >
                                     <Filter className="w-4 h-4 mr-2" />
                                     All

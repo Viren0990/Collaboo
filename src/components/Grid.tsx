@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from "./ui/button"
 import { DocumentType } from "@/types/document";
 import { deleteDocument } from "@/app/actions/documentActions"
+import toast from "react-hot-toast";
 
 interface GridProps {
   files?: DocumentType[];
@@ -65,6 +66,19 @@ export const Grid = ({ files, onDelete }: GridProps) => {
   }
 
 
+    function copyLink(id:string): void {
+        const currentUrl = window.location.href.split('?')[0];
+        const newUrl = `${currentUrl}/${id}`;
+        navigator.clipboard.writeText(newUrl)
+            .then(() => {
+            toast.success("Link copied successfully!");
+            console.log("Link copied successfully!");
+            })
+            .catch(err => {
+            console.error("Failed to copy link:", err);
+            });
+    }
+
   return (
     <div className="px-6">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -97,7 +111,7 @@ export const Grid = ({ files, onDelete }: GridProps) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-slate-800/95 backdrop-blur-sm border-purple-400/30 shadow-xl">
                       <DropdownMenuItem className="text-white hover:bg-purple-400/20 focus:bg-purple-400/20">
-                        <button>Copy Link</button> 
+                        <button onClick={()=>{copyLink(doc.id)}}>Copy Link</button> 
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                       onSelect={(e) => {
