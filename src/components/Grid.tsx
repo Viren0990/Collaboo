@@ -9,6 +9,7 @@ import { Button } from "./ui/button"
 import { DocumentType } from "@/types/document";
 import { deleteDocument } from "@/app/actions/documentActions"
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface GridProps {
   files?: DocumentType[];
@@ -83,6 +84,7 @@ export const Grid = ({ files, onDelete }: GridProps) => {
     <div className="px-6">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {files?.map((doc: DocumentType) => (
+          <Link href={`myDocuments/${doc.id}`}>
           <Card
             key={doc.id}
             className="group relative overflow-hidden bg-gradient-to-br from-slate-800/50 via-purple-900/30 to-slate-800/50 border border-gray-400 backdrop-blur-md hover:border-purple-400/40 transition-all duration-500 cursor-pointer hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10"
@@ -157,6 +159,7 @@ export const Grid = ({ files, onDelete }: GridProps) => {
               </div>
             </CardContent>
           </Card>
+          </Link>
         ))}
       </div>
     </div>
