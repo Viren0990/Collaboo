@@ -357,4 +357,4 @@ const Tiptap = () => {
   )
 }
 
-export default Tiptap
+export default Tiptap //this is my editor component
