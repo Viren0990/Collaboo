@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Colaboo/NexusDocs: A Collaborative AI-Powered Content Co-creation Studio
 
-## Getting Started
 
-First, run the development server:
+### ✨ Key Features
 
+* **Real-time Collaborative Editing:** Multiple users can edit the same document simultaneously with live cursor tracking and presence indicators, powered by a dedicated WebSocket server and **Conflict-Free Replicated Data Types (Yjs)**.
+* **AI-Powered Assistant:** Seamlessly integrated with the **Google Gemini API** to provide an in-editor assistant for content generation, summarization, and tone-based text refinement.
+* **Robust Document Management:** Users can create, delete, and manage documents with full role-based access control (owner, editor, viewer).
+* **Version History & Rollback:** All document changes are periodically saved to a secure database, allowing users to browse a complete history of the document and roll back to any previous version.
+* **Modern Full-Stack Architecture:** Built on the latest **Next.js App Router** and **Server Actions** for a performant, type-safe, and streamlined developer experience.
+* **Secure Authentication:** User authentication is handled via **NextAuth.js**, providing a robust and easy-to-use login system with support for third-party providers like Google.
+
+---
+
+### 💻 Technical Stack
+
+**Frontend & Backend:**
+* **Next.js (App Router):** The full-stack framework for the application.
+* **Express:** For websocket server and yjs server side.
+* **TypeScript:** For type safety across the entire codebase.
+* **Tailwind CSS:** For fast and efficient styling.
+
+**Real-time & State Management:**
+* **Yjs:** The core library for collaborative editing, using CRDTs to manage shared state.
+* **`y-quill`:** The binding that connects the Yjs data model to the Quill rich text editor.
+* **Socket.IO:** A robust library for real-time, event-based communication between clients and the server.
+* **TipTap.js:** A powerful, API-driven rich text editor.
+
+**Database & ORM:**
+* **PostgreSQL:** A powerful relational database for storing all application data.
+* **Prisma:** A modern ORM for type-safe database access and migrations.
+
+**Authentication & APIs:**
+* **NextAuth.js (`@auth/nextjs`):** The full-stack authentication solution for Next.js.
+* **Google Gemini API:** The large language model (LLM) used for all AI-powered features.
+
+---
+
+
+
+#To get a local copy up and running, follow these steps:
+
+#### Prerequisites
+* [Node.js](https://nodejs.org/) (v18 or higher)
+* [PostgreSQL](https://www.postgresql.org/)
+
+#### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [Your Repository URL]
+cd my-collab-studio
 ```
+# 📸 Screenshots
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Signin Page
+![Signin Page](SC/Signin.png)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Landing Page
+![Landing Page](SC/Landing.png)
+![Landing Page](SC/Landing2.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Documents Dashboard Page
+![Documents Dashboard Page](SC/DocumentDash.png)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Editor Page
+![Editor Page](SC/Editor.png)
