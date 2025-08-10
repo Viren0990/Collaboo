@@ -1,4 +1,4 @@
-# Colaboo/NexusDocs: A Collaborative AI-Powered Content Co-creation Studio
+# Colaboo/NexusDocs: A Collaborative AI-Powered Content Co-creation Studio (Still in Progress)
 
 
 ### ✨ Key Features
